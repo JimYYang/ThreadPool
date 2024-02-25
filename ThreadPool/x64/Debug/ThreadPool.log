@@ -1,2 +1,9 @@
 ﻿  test.cpp
-  ThreadPool.vcxproj -> D:\Projects\ThreadPool\x64\Debug\ThreadPool.exe
+D:\Projects\ThreadPool\ThreadPool\test.cpp(35,13): error C2280: 'Result::Result(const Result &)': attempting to reference a deleted function
+  D:\Projects\ThreadPool\ThreadPool\threadpool.h(121,1):
+  compiler has generated 'Result::Result' here
+  D:\Projects\ThreadPool\ThreadPool\threadpool.h(121,1):
+  'Result::Result(const Result &)': function was implicitly deleted because a data member invokes a deleted or inaccessible function 'Any::Any(const Any &)'
+  D:\Projects\ThreadPool\ThreadPool\threadpool.h(19,2):
+  'Any::Any(const Any &)': function was explicitly deleted
+  

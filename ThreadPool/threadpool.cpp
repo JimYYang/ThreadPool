@@ -3,8 +3,9 @@
 #include <thread>
 #include <iostream>
 
-const int TASK_MAX_THRESHHOLD = 4;
+const int TASK_MAX_THRESHHOLD = 1024;
 
+// ---- 线程池方法实现
 // 线程池构造
 ThreadPool::ThreadPool()
 	:initThreadSize_(0),
@@ -33,7 +34,7 @@ void ThreadPool::setTaskQueMaxThreshHold(int threshHold)
 }
 
 // 给线程池提交任务 用户调用该接口 传入任务对象 生产任务
-void ThreadPool::submitTask(std::shared_ptr<Task> sp)
+Result ThreadPool::submitTask(std::shared_ptr<Task> sp)
 {
 	// 获取锁
 	std::unique_lock<std::mutex> lock(taskQueMtx_);
@@ -50,7 +51,9 @@ void ThreadPool::submitTask(std::shared_ptr<Task> sp)
 	{
 		// 说明notFull_等待1s 条件依然没有满足
 		std::cerr << "task queue is full, submit task fail." << std::endl;
-		return;
+		// return task->getResult(); 如果Result依赖task 这样设计是不行的
+		// 线程执行完后task后 task就被析构了
+		return Result(sp, false);
 	}
 
 	// 如果有空余 把任务放到队列中
@@ -59,6 +62,8 @@ void ThreadPool::submitTask(std::shared_ptr<Task> sp)
 
 	// 因为放了新任务 队列肯定不空 在notEmpty_上通知 分配线程执行任务
 	notEmpty_.notify_all();
+	// 必须拿到Result之后 才能析构task
+	return Result(sp);
 }
 
 // 开启线程池
@@ -118,13 +123,33 @@ void ThreadPool::threadFunc()
 		// 当前线程负责执行这个任务
 		if (task != nullptr)
 		{
-			task->run();
+			//task->run(); // 执行任务；把任务的返回值setVal方法给到Result
+			task->exec();
 		}
 
 	}
 }
 
-// 线程方法实现
+// ------Task方法实现
+
+Task::Task()
+	:result_(nullptr)
+{
+	
+}
+
+void Task::exec()
+{
+	if (result_ != nullptr)
+		result_->setVal(run()); // 这里发生多态调用
+}
+
+void Task::setResult(Result* res)
+{
+	result_ = res;
+}
+
+// ------线程方法实现
 // 线程构造
 Thread::Thread(ThreadFunc func)
 	:func_(func)
@@ -145,3 +170,26 @@ void Thread::start()
 	t.detach(); // pthread_detach
 }
 
+// ------Result方法实现
+Result::Result(std::shared_ptr<Task> task, bool isValid/*定义和声明一出给默认值即可*/)
+	:isValid_(isValid),
+	task_(task)
+{
+	task_->setResult(this);
+}
+
+void Result::setVal(Any any)
+{
+	this->any_ = std::move(any);
+	sem_.post(); // 已经获取了信号量的返回值 增加信号量资源
+}
+
+Any Result::get()
+{
+	if (!isValid_)
+	{
+		return "";
+	}
+	sem_.wait(); // task任务如果没有执行完 这里会阻塞用户线程
+	return std::move(any_);
+}
