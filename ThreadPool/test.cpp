@@ -30,26 +30,30 @@ private:
 
 int main()
 {
-	ThreadPool pool;
-	pool.setMode(PoolMode::MODE_CACHED);
-	pool.start(4);
+	{
+		ThreadPool pool;
+		//pool.setMode(PoolMode::MODE_CACHED);
+		pool.start(4);
 
-	Result res1 = pool.submitTask(std::make_shared<MyTask>(1, 100000000));
-	Result res2 = pool.submitTask(std::make_shared<MyTask>(100000001, 200000000));
-	Result res3 = pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
-	pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
-	pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
-	pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
+		Result res1 = pool.submitTask(std::make_shared<MyTask>(1, 100000000));
+		Result res2 = pool.submitTask(std::make_shared<MyTask>(100000001, 200000000));
+		Result res3 = pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
+		pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
+		pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
+		pool.submitTask(std::make_shared<MyTask>(200000001, 300000000));
 
-	ULL sum1 = res1.get().cast_<ULL>();
-	ULL sum2 = res2.get().cast_<ULL>();
-	ULL sum3 = res3.get().cast_<ULL>();
+		ULL sum1 = res1.get().cast_<ULL>();
+		ULL sum2 = res2.get().cast_<ULL>();
+		ULL sum3 = res3.get().cast_<ULL>();
 
-	// 主分解任务 然后给子线程分配任务
-	// 等待子线程执行完成任务 返回结果
-	// 主线程合并结果
+		// 主分解任务 然后给子线程分配任务
+		// 等待子线程执行完成任务 返回结果
+		// 主线程合并结果
 
-	cout << "---------" << (sum1 + sum2 + sum3) << endl;
+		cout << "---------" << (sum1 + sum2 + sum3) << endl;
+
+	}
+	getchar();
 
 	//pool.submitTask(std::make_shared<MyTask>());
 	//pool.submitTask(std::make_shared<MyTask>());
