@@ -67,6 +67,6 @@ int main()
 	//pool.submitTask(std::make_shared<MyTask>());
 	//pool.submitTask(std::make_shared<MyTask>());
 	//std::this_thread::sleep_for(std::chrono::seconds(5));
-	getchar();
+	//getchar();
 	return 0;
 }

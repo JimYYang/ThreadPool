@@ -25,10 +25,10 @@ ThreadPool::ThreadPool()
 ThreadPool::~ThreadPool()
 {
 	isPoolRunning_ = false;
-	notEmpty_.notify_all();
 
 	// 等待线程池里面所有的线程返回 有两种状态：阻塞 & 正在执行任务中
 	std::unique_lock<std::mutex> lock(taskQueMtx_);
+	notEmpty_.notify_all();
 	exitCond_.wait(lock, [&]() ->bool {return threads_.size() == 0; });
 }
 
@@ -138,7 +138,9 @@ void ThreadPool::start(int initThreadSize)
 void ThreadPool::threadFunc(int threadId) // 线程函数结束返回 线程也会结束
 {
 	auto lastTime = std::chrono::high_resolution_clock().now();
-	while (isPoolRunning_)
+	// 必须等待所有任务执行完成 线程池才可以回收线程资源
+	//while (isPoolRunning_)
+	for (;;)
 	{
 		std::shared_ptr<Task> task;
 		{
@@ -151,8 +153,17 @@ void ThreadPool::threadFunc(int threadId) // 线程函数结束返回 线程也会结束
 			// 应该把多余的线程回收掉（超过initThreadSize_的需要回收）
 			// 当前时间 - 上一次线程执行的时间 >60s
 			// 锁+双重判断
-			while (isPoolRunning_ && taskQue_.size() == 0)
+			while (taskQue_.size() == 0)
 			{
+				if (!isPoolRunning_)
+				{
+					// 开始回收线程
+					threads_.erase(threadId);
+					std::cout << "threadId:" << std::this_thread::get_id() << " has been erased!" << std::endl;
+					exitCond_.notify_all();
+					return;
+				}
+
 				if (poolMode_ == PoolMode::MODE_CACHED)
 				{
 					// 轮询 每1秒钟返回一次 判断是超时返回还是有任务待执行返回
@@ -169,7 +180,7 @@ void ThreadPool::threadFunc(int threadId) // 线程函数结束返回 线程也会结束
 							curThreadSize_--;
 							idleThreadSize_--;
 							std::cout << "threadId:" << std::this_thread::get_id() << " has been erased!" << std::endl;
-							return;
+							return; // 线程函数结束 线程结束
 						}
 					}
 				}
@@ -189,11 +200,6 @@ void ThreadPool::threadFunc(int threadId) // 线程函数结束返回 线程也会结束
 				//}
 			}
 
-			if (!isPoolRunning_)
-			{
-				break;
-			}
-			
 			std::cout << "tid: " << std::this_thread::get_id() << "获取任务成功" << std::endl;
 
 			idleThreadSize_--;
@@ -220,11 +226,6 @@ void ThreadPool::threadFunc(int threadId) // 线程函数结束返回 线程也会结束
 		idleThreadSize_++;
 		lastTime = std::chrono::high_resolution_clock().now();
 	}
-	// 跳出循环后 说明线程结束
-	// 开始回收线程
-	threads_.erase(threadId);
-	std::cout << "threadId:" << std::this_thread::get_id() << " has been erased!" << std::endl;
-	exitCond_.notify_all();
 }
 
 
