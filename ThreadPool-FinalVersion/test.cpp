@@ -1,9 +1,9 @@
 /*
-* 1.Ê¹Ïß³Ì³ØÌá½»ÈÎÎñ¸ü·½±ã
+* 1.Ê¹ï¿½ß³Ì³ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 *	submitTask(fun1, 1, 2);
 *	submitTask(fun2, 1, 2, 3);
-*	submitTask¿É±ä²ÎÄ£°å
-* 2.Ê¹ÓÃc++ÐÂÌØÐÔ packaged_task future decltypeÀ´¼ò»¯Ïß³Ì³Ø´úÂë
+*	submitTaskï¿½É±ï¿½ï¿½Ä£ï¿½ï¿½
+* 2.Ê¹ï¿½ï¿½c++ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ packaged_task future decltypeï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³Ø´ï¿½ï¿½ï¿½
 */
 
 #include <iostream>
@@ -31,3 +31,4 @@ int main()
 	cout << r1.get() << endl;
 	return 0;
 }
+ 

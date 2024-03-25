@@ -12,7 +12,7 @@
 #include <unordered_map>
 #include <iostream>
 
-// AnyÀàĞÍ£º¿ÉÒÔ½ÓÊÕÈÎÒâÊı¾İÀàĞÍ
+// Anyï¿½ï¿½ï¿½Í£ï¿½ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class Any
 {
 public:
@@ -23,18 +23,18 @@ public:
 	Any(Any&&) = default;
 	Any& operator=(Any&&) = default;
 
-	// Õâ¸ö¹¹Ôìº¯Êı¿ÉÒÔÈÃAny½ÓÊÕÈÎÒâÀàĞÍµÄÊı¾İ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Anyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½ï¿½
 	template<typename T>
 	Any(T data)
 		:base_(std::make_unique<Derive<T>>(data))
 	{}
 
-	// Õâ¸ö·½·¨ÄÜ°ÑAnyÀïÃæ´æ´¢µÄÊı¾İÌáÈ¡³öÀ´
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü°ï¿½Anyï¿½ï¿½ï¿½ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½
 	template<typename T>
 	T cast_()
 	{
-		// »ùÀàÖ¸Õë×ª»¯ÎªÅÉÉúÀàÖ¸Õë Ö»ÓĞ»ùÀàÖ¸ÕëÈ·ÊµÖ¸ÏòÅÉÉúÀà¶ÔÏóµÄÊ±ºò²ÅÕıÈ·
-		// dynamic_cast Ö§³ÖRTTI
+		// ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ Ö»ï¿½Ğ»ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½È·ÊµÖ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½È·
+		// dynamic_cast Ö§ï¿½ï¿½RTTI
 		Derive<T>* pd = dynamic_cast<Derive<T>*>(base_.get());
 		if (pd == nullptr)
 		{
@@ -45,14 +45,14 @@ public:
 	}
 
 private:
-	// »ùÀàÀàĞÍ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	class Base
 	{
 	public:
 		virtual ~Base() = default;
 	};
 
-	// ÅÉÉúÀàÀàĞÍ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	template<typename T>
 	class Derive : public Base
 	{
@@ -63,12 +63,12 @@ private:
 		T data_;
 	};
 
-	// ¶¨ÒåÒ»¸ö»ùÀàµÄÖ¸Õë
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½
 	std::unique_ptr<Base> base_;
 	
 };
 
-// ÊµÏÖĞÅºÅÁ¿Àà
+// Êµï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½
 class Semaphore
 {
 public:
@@ -77,18 +77,18 @@ public:
 	{}
 	~Semaphore() = default;
 
-	// »ñÈ¡Ò»¸öĞÅºÅÁ¿×ÊÔ´
+	// ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 	void wait()
 	{
 		std::unique_lock<std::mutex> lock(mtx_);
-		// µÈ´ıĞÅºÅÁ¿ÓĞ×ÊÔ´ Ã»ÓĞ×ÊÔ´µÄ»°»á×èÈûµ±Ç°Ïß³Ì
+		// ï¿½È´ï¿½ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ Ã»ï¿½ï¿½ï¿½ï¿½Ô´ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ß³ï¿½
 		cond_.wait(lock, [&]() -> bool {
 			return resLimit_ > 0;
 			});
 		resLimit_--;
 	}
 
-	// Ôö¼ÓÒ»¸öĞÅºÅÁ¿×ÊÔ´
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½ï¿½ï¿½Ô´
 	void post()
 	{
 		std::unique_lock<std::mutex> lock(mtx_);
@@ -101,29 +101,29 @@ private:
 	std::condition_variable cond_;
 };
 
-// TaskÀàĞÍÇ°ÖÃÉùÃ÷
+// Taskï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class Task;
 
-// ÊµÏÖ ½ÓÊÕÌá½»µ½Ïß³Ì³ØµÄtaskÈÎÎñÖ´ĞĞÍê³ÉºóµÄ·µ»ØÖµÀàĞÍResult
+// Êµï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ß³Ì³Øµï¿½taskï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Éºï¿½Ä·ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Result
 class Result
 {
 public:
 	Result(std::shared_ptr<Task> task, bool isValid = true);
 	~Result() = default;
 
-	// setVal »ñÈ¡ÈÎÎñÖ´ĞĞÍêµÄ·µ»ØÖµ
+	// setVal ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ö´ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½Öµ
 	void setVal(Any any);
 
-	// get·½·¨ ÓÃ»§µ÷ÓÃÕâ¸ö·½·¨»ñÈ¡taskµÄ·µ»ØÖµ
+	// getï¿½ï¿½ï¿½ï¿½ ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡taskï¿½Ä·ï¿½ï¿½ï¿½Öµ
 	Any get();
 private:
-	Any any_; // ´æ´¢ÈÎÎñµÄ·µ»ØÖµ
-	Semaphore sem_; // Ïß³ÌÍ¨ĞÅĞÅºÅÁ¿
-	std::shared_ptr<Task> task_; // Ö¸Ïò¶ÔÓ¦»ñÈ¡·µ»ØÖµµÄÈÎÎñ¶ÔÏó
-	std::atomic_bool isValid_; // ·µ»ØÖµÊÇ·ñÓĞĞ§
+	Any any_; // ï¿½æ´¢ï¿½ï¿½ï¿½ï¿½Ä·ï¿½ï¿½ï¿½Öµ
+	Semaphore sem_; // ï¿½ß³ï¿½Í¨ï¿½ï¿½ï¿½Åºï¿½ï¿½ï¿½
+	std::shared_ptr<Task> task_; // Ö¸ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	std::atomic_bool isValid_; // ï¿½ï¿½ï¿½ï¿½Öµï¿½Ç·ï¿½ï¿½ï¿½Ğ§
 };
 
-// ÈÎÎñ³éÏó»ùÀà
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 class Task
 {
 public:
@@ -131,41 +131,41 @@ public:
 	~Task() = default;
 	void exec();
 	void setResult(Result* res);
-	// ÓÃ»§¿ÉÒÔ×Ô¶¨ÒåÈÎÒâÈÎÎñÀàĞÍ ´ÓTask¼Ì³Ğ ÖØĞ´run·½·¨ ÊµÏÖ×Ô¶¨ÒåÈÎÎñ´¦Àí
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Taskï¿½Ì³ï¿½ ï¿½ï¿½Ğ´runï¿½ï¿½ï¿½ï¿½ Êµï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	virtual Any run() = 0;
 private:
-	Result* result_; // ²»ÄÜÓÃÖÇÄÜÖ¸Õë ·ñÔò»á½»²æÒıÓÃ ResultÉúÃüÖÜÆÚ±ÈTask³¤
+	Result* result_; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Resultï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú±ï¿½Taskï¿½ï¿½
 
 };
 
-// Ïß³Ì³ØÖ§³ÖµÄÄ£Ê½
+// ï¿½ß³Ì³ï¿½Ö§ï¿½Öµï¿½Ä£Ê½
 enum class PoolMode
 {
-	MODE_FIXED, // ¹Ì¶¨ÊıÁ¿µÄÏß³Ì
-	MODE_CACHED, // Ïß³ÌÊıÁ¿¿ÉÒÔ¶¯Ì¬Ôö³¤
+	MODE_FIXED, // ï¿½Ì¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
+	MODE_CACHED, // ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½
 };
 
 
 class Thread
 {
 public:
-	// Ïß³Ìº¯Êı¶ÔÏóÀàĞÍ
+	// ï¿½ß³Ìºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	using ThreadFunc = std::function<void(int)>;
 
-	// Ïß³Ì¹¹Ôì
+	// ï¿½ß³Ì¹ï¿½ï¿½ï¿½
 	Thread(ThreadFunc func);
-	// Ïß³ÌÎö¹¹
+	// ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½
 	~Thread();
 
-	// Æô¶¯Ïß³Ì
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½
 	void start();
 
-	// »ñÈ¡Ïß³Ìid
+	// ï¿½ï¿½È¡ï¿½ß³ï¿½id
 	int getId() const;
 private:
 	ThreadFunc func_;
 	static int generateId_;
-	int threadId_; // ±£´æÏß³Ìid ÔÚÏß³Ì»ØÊÕµÄÊ±ºòÊ¹ÓÃ
+	int threadId_; // ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½id ï¿½ï¿½ï¿½ß³Ì»ï¿½ï¿½Õµï¿½Ê±ï¿½ï¿½Ê¹ï¿½ï¿½
 };
 
 /* example:
@@ -174,7 +174,7 @@ pool.start(4);
 
 class MyTask : public Task
 {
-void run(){// ÈÎÎñ´úÂë}
+void run(){// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½}
 }
 
 pool.submitTask(std::make_shared<MyTask>());
@@ -184,56 +184,58 @@ pool.submitTask(std::make_shared<MyTask>());
 class ThreadPool
 {
 public:
-	// Ïß³Ì³Ø¹¹Ôì
+	// ï¿½ß³Ì³Ø¹ï¿½ï¿½ï¿½
 	ThreadPool();
 
-	// Ïß³Ì³ØÎö¹¹
+	// ï¿½ß³Ì³ï¿½ï¿½ï¿½ï¿½ï¿½
 	~ThreadPool();
 
-	// ÉèÖÃÏß³Ì³ØµÄ¹¤×÷Ä£Ê½
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ØµÄ¹ï¿½ï¿½ï¿½Ä£Ê½
 	void setMode(PoolMode mode);
 
-	// ÉèÖÃtaskÈÎÎñ¶ÓÁĞÉÏÏŞãĞÖµ
+	// ï¿½ï¿½ï¿½ï¿½taskï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 	void setTaskQueMaxThreshHold(int threshHold);
 
-	// ÉèÖÃÏß³Ì³ØcachedÄ£Ê½ÏÂÏß³ÌÊıÁ¿ÉÏÏŞãĞÖµ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½cachedÄ£Ê½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 	void setThreadMaxThreshHold(int threshHold);
 
-	// ¸øÏß³Ì³ØÌá½»ÈÎÎñ
+	// ï¿½ï¿½ï¿½ß³Ì³ï¿½ï¿½á½»ï¿½ï¿½ï¿½ï¿½
 	Result submitTask(std::shared_ptr<Task> sp);
 
-	// ¿ªÆôÏß³Ì³Ø
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½
 	void start(int initThreadSize = std::thread::hardware_concurrency());
 
 	ThreadPool(const ThreadPool&) = delete;
 	ThreadPool& operator=(const ThreadPool&) = delete;
 private:
-	// ¶¨ÒåÏß³Ìº¯Êı
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìºï¿½ï¿½ï¿½
 	void threadFunc(int threadId);
 
-	// ¼ì²éÏß³Ì³ØµÄÔËĞĞ×´Ì¬
+	// ï¿½ï¿½ï¿½ï¿½ß³Ì³Øµï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 	bool checkRunningState()const;
 private:
-	//std::vector<std::unique_ptr<Thread>> threads_; // Ïß³ÌÁĞ±í
+	//std::vector<std::unique_ptr<Thread>> threads_; // ï¿½ß³ï¿½ï¿½Ğ±ï¿½
 	std::unordered_map<int, std::unique_ptr<Thread>> threads_;
 
-	int initThreadSize_; // ³õÊ¼Ïß³ÌÊıÁ¿
-	std::atomic_int curThreadSize_; // ¼ÇÂ¼µ±Ç°Ïß³Ì³ØÏß³Ì×ÜÊıÁ¿
-	int threadMaxThreshHold_; // Ïß³ÌÊıÁ¿ÉÏÏŞãĞÖµ
-	std::atomic_int idleThreadSize_; // ¼ÇÂ¼¿ÕÏĞÏß³ÌµÄÊıÁ¿
+	int initThreadSize_; // ï¿½ï¿½Ê¼ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½
+	std::atomic_int curThreadSize_; // ï¿½ï¿½Â¼ï¿½ï¿½Ç°ï¿½ß³Ì³ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int threadMaxThreshHold_; // ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
+	std::atomic_int idleThreadSize_; // ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ìµï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	// ÓÃ»§¿ÉÄÜ´«ÁÙÊ±¶ÔÏó½øÀ´×÷ÎªÈÎÎñ ËùÒÔĞèÒªÊ¹ÓÃÖ¸ÕëÖ¸Õë
-	std::queue<std::shared_ptr<Task>> taskQue_; // ÈÎÎñ¶ÓÁĞ
-	std::atomic_int taskSize_; // ÈÎÎñÊıÁ¿
-	int taskQueMaxThreshHold_; // ÈÎÎñ¶ÓÁĞÉÏÏŞãĞÖµ
+	// ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ü´ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÊ¹ï¿½ï¿½Ö¸ï¿½ï¿½Ö¸ï¿½ï¿½
+	std::queue<std::shared_ptr<Task>> taskQue_; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	std::atomic_int taskSize_; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	int taskQueMaxThreshHold_; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ
 
-	std::mutex taskQueMtx_; // ±£Ö¤ÈÎÎñ¶ÓÁĞµÄÏß³Ì°²È«
-	std::condition_variable notFull_; // ±íÊ¾ÈÎÎñ¶ÓÁĞ²»Âú
-	std::condition_variable notEmpty_; // ±íÊ¾ÈÎÎñ¶ÓÁĞ²»¿Õ
-	std::condition_variable exitCond_; // µÈ´ıÏß³Ì×ÊÔ´È«²¿»ØÊÕ
+	std::mutex taskQueMtx_; // ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğµï¿½ï¿½ß³Ì°ï¿½È«
+	std::condition_variable notFull_; // ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ²ï¿½ï¿½ï¿½
+	std::condition_variable notEmpty_; // ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ğ²ï¿½ï¿½ï¿½
+	std::condition_variable exitCond_; // ï¿½È´ï¿½ï¿½ß³ï¿½ï¿½ï¿½Ô´È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	
-	PoolMode poolMode_; // µ±Ç°Ïß³Ì³ØµÄ¹¤×÷Ä£Ê½
-	std::atomic_bool isPoolRunning_; // ±íÊ¾Ïß³Ì³Øµ±Ç°µÄÆô¶¯×´Ì¬
+	PoolMode poolMode_; // ï¿½ï¿½Ç°ï¿½ß³Ì³ØµÄ¹ï¿½ï¿½ï¿½Ä£Ê½
+	std::atomic_bool isPoolRunning_; // ï¿½ï¿½Ê¾ï¿½ß³Ì³Øµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 };
 
 #endif
+
+//
